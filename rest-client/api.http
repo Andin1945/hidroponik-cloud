@@ -1,0 +1,303 @@
+@authBaseUrl = http://localhost:5001/api/auth
+@apiBaseUrl = http://localhost:5002/api
+
+### ROOT AUTH SERVICE
+GET http://localhost:5001
+
+
+### ROOT MONITORING SERVICE
+GET http://localhost:5002
+
+
+##################################################
+# AUTH SERVICE
+##################################################
+
+### REGISTER USER
+POST {{authBaseUrl}}/register
+Content-Type: application/json
+
+{
+  "name": "Edward",
+  "email": "edward@gmail.com",
+  "password": "123456",
+  "role": "admin"
+}
+
+
+### LOGIN USER
+# @name login
+POST {{authBaseUrl}}/login
+Content-Type: application/json
+
+{
+  "email": "edward@gmail.com",
+  "password": "123456"
+}
+
+
+### SET TOKEN DARI HASIL LOGIN
+@token = {{login.response.body.token}}
+
+
+### GET PROFILE
+GET {{authBaseUrl}}/profile
+Authorization: Bearer {{token}}
+
+
+### UPDATE PROFILE
+PUT {{authBaseUrl}}/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Edward Admin"
+}
+
+
+### LOGOUT
+POST {{authBaseUrl}}/logout
+Content-Type: application/json
+
+
+##################################################
+# TANAMAN API
+##################################################
+
+### GET ALL TANAMAN
+GET {{apiBaseUrl}}/tanaman
+
+
+### GET TANAMAN BY ID
+GET {{apiBaseUrl}}/tanaman/1
+
+
+### CREATE TANAMAN
+POST {{apiBaseUrl}}/tanaman
+Content-Type: application/json
+
+{
+  "nama_tanaman": "Selada Romaine",
+  "jenis_tanaman": "Sayuran Daun",
+  "tanggal_tanam": "2026-05-24",
+  "status": "aktif",
+  "user_id": 1
+}
+
+
+### UPDATE TANAMAN
+PUT {{apiBaseUrl}}/tanaman/1
+Content-Type: application/json
+
+{
+  "nama_tanaman": "Selada Hijau Update",
+  "jenis_tanaman": "Sayuran Daun",
+  "tanggal_tanam": "2026-05-24",
+  "status": "aktif",
+  "user_id": 1
+}
+
+
+### DELETE TANAMAN
+DELETE {{apiBaseUrl}}/tanaman/1
+
+
+##################################################
+# SENSOR API
+##################################################
+
+### GET ALL SENSOR
+GET {{apiBaseUrl}}/sensor
+
+
+### GET SENSOR BY ID
+GET {{apiBaseUrl}}/sensor/1
+
+
+### CREATE SENSOR
+POST {{apiBaseUrl}}/sensor
+Content-Type: application/json
+
+{
+  "nama_sensor": "Sensor pH",
+  "tipe_sensor": "Analog",
+  "lokasi": "Bak Nutrisi 1",
+  "status": "aktif"
+}
+
+
+### UPDATE SENSOR
+PUT {{apiBaseUrl}}/sensor/1
+Content-Type: application/json
+
+{
+  "nama_sensor": "Sensor pH Update",
+  "tipe_sensor": "Analog",
+  "lokasi": "Bak Nutrisi Utama",
+  "status": "aktif"
+}
+
+
+### DELETE SENSOR
+DELETE {{apiBaseUrl}}/sensor/1
+
+
+##################################################
+# MONITORING API
+##################################################
+
+### GET ALL MONITORING
+GET {{apiBaseUrl}}/monitoring
+
+
+### GET MONITORING BY ID
+GET {{apiBaseUrl}}/monitoring/1
+
+
+### CREATE MONITORING
+POST {{apiBaseUrl}}/monitoring
+Content-Type: application/json
+
+{
+  "tanaman_id": 1,
+  "sensor_id": 1,
+  "ph": 6.2,
+  "suhu_air": 25.5,
+  "ppm": 850,
+  "kelembaban": 70,
+  "waktu_monitoring": "2026-05-24 10:00:00"
+}
+
+
+### UPDATE MONITORING
+PUT {{apiBaseUrl}}/monitoring/1
+Content-Type: application/json
+
+{
+  "tanaman_id": 1,
+  "sensor_id": 1,
+  "ph": 6.5,
+  "suhu_air": 26.0,
+  "ppm": 900,
+  "kelembaban": 72,
+  "waktu_monitoring": "2026-05-24 11:00:00"
+}
+
+
+### DELETE MONITORING
+DELETE {{apiBaseUrl}}/monitoring/1
+
+
+##################################################
+# NUTRISI API
+##################################################
+
+### GET ALL NUTRISI
+GET {{apiBaseUrl}}/nutrisi
+
+
+### GET NUTRISI BY ID
+GET {{apiBaseUrl}}/nutrisi/1
+
+
+### CREATE NUTRISI
+POST {{apiBaseUrl}}/nutrisi
+Content-Type: application/json
+
+{
+  "tanaman_id": 1,
+  "jenis_nutrisi": "AB Mix",
+  "jumlah_ml": 50,
+  "tanggal_pemberian": "2026-05-24",
+  "keterangan": "Pemberian nutrisi rutin"
+}
+
+
+### UPDATE NUTRISI
+PUT {{apiBaseUrl}}/nutrisi/1
+Content-Type: application/json
+
+{
+  "tanaman_id": 1,
+  "jenis_nutrisi": "AB Mix Update",
+  "jumlah_ml": 60,
+  "tanggal_pemberian": "2026-05-25",
+  "keterangan": "Pemberian nutrisi tambahan"
+}
+
+
+### DELETE NUTRISI
+DELETE {{apiBaseUrl}}/nutrisi/1
+
+
+##################################################
+# JADWAL PERAWATAN API
+##################################################
+
+### GET ALL JADWAL
+GET {{apiBaseUrl}}/jadwal
+
+
+### GET JADWAL BY ID
+GET {{apiBaseUrl}}/jadwal/1
+
+
+### CREATE JADWAL
+POST {{apiBaseUrl}}/jadwal
+Content-Type: application/json
+
+{
+  "tanaman_id": 1,
+  "kegiatan": "Cek pH Air",
+  "tanggal_jadwal": "2026-05-25",
+  "status": "belum",
+  "catatan": "Pastikan pH berada di kisaran 5.5 - 6.5"
+}
+
+
+### UPDATE JADWAL
+PUT {{apiBaseUrl}}/jadwal/1
+Content-Type: application/json
+
+{
+  "tanaman_id": 1,
+  "kegiatan": "Cek pH dan PPM",
+  "tanggal_jadwal": "2026-05-26",
+  "status": "selesai",
+  "catatan": "Pengecekan sudah dilakukan"
+}
+
+
+### DELETE JADWAL
+DELETE {{apiBaseUrl}}/jadwal/1
+
+
+##################################################
+# NOTIFICATIONS API
+##################################################
+
+### GET ALL NOTIFICATIONS
+GET {{apiBaseUrl}}/notifications
+
+
+### GET UNREAD NOTIFICATIONS COUNT
+GET {{apiBaseUrl}}/notifications/unread-count
+
+
+### CREATE NOTIFICATION
+POST {{apiBaseUrl}}/notifications
+Content-Type: application/json
+
+{
+  "title": "Data Tanaman Ditambahkan",
+  "message": "Data tanaman baru berhasil ditambahkan melalui REST Client.",
+  "type": "create"
+}
+
+
+### MARK ALL NOTIFICATIONS AS READ
+PUT {{apiBaseUrl}}/notifications/read-all
+
+
+### DELETE NOTIFICATION
+DELETE {{apiBaseUrl}}/notifications/1
