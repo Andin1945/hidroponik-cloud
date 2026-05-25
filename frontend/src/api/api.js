@@ -5,7 +5,7 @@ export const authAPI = axios.create({
 });
 
 export const monitoringAPI = axios.create({
-  baseURL: "ISI_URL_MONITORING_SERVICE_KAMU/api",
+  baseURL: "https://monitoring-service-239722545710.asia-southeast2.run.app/api",
 });
 
 authAPI.interceptors.request.use((config) => {
